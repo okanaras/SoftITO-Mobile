@@ -18,10 +18,12 @@ class DijitalUrun extends Urun {
 
   @override
   double kargoUcretiHesapla() {
+    // todo 1: Burda exception fırlatmak yerine 0.0 döndürmek daha mantikli olabilir. Dijital ürünlerde kargo ücreti yoktur
     throw Exception("Dijital urunlerde kargo hesaplanamaz!");
   }
 }
 
+// todo 2: Ödeme, kargo, mail, sms gibi işlemler ayrı interface'lerde olmalıdır
 abstract class ISiparisIslemleri {
   void siparisKaydet(String orderId, double tutar);
   void odemeYap(String tip, double tutar);
@@ -31,6 +33,7 @@ abstract class ISiparisIslemleri {
   void faturaYazdir(String orderId);
 }
 
+// todo 3: Bu alttaki 3 sınıf, yukardaki interface'leri implement etmelidir.
 class SqliteVeritabani {
   void kaydet(String sql) {
     print("DB calistirildi: " + sql);
@@ -61,6 +64,7 @@ class SiparisYoneticisi implements ISiparisIslemleri {
 
   @override
   void odemeYap(String tip, double tutar) {
+    // todo 4: Ödeme işlemleri farklı interface'lerde olmalı. Örneğin, kredi kartı ödemesi için ayrı bir sınıf, havale ödemesi için ayrı bir sınıf olmalı. Bu sayede yeni ödeme yöntemleri eklemek daha kolay olur.
     if (tip == "KREDI_KARTI") {
       print("$tutar TL Kredi kartindan POS ile cekildi.");
     } else if (tip == "HAVALE") {
@@ -107,6 +111,7 @@ class SiparisYoneticisi implements ISiparisIslemleri {
     double toplam = 0;
 
     for (var i = 0; i < sepet.length; i++) {
+      // todo 5: Stok kontrolü ayrı bir fonksiyonda kontrol edilebilinir.
       if (sepet[i].stok <= 0) {
         print("Hata: " + sepet[i].ad + " tukenmis!");
         return;
@@ -116,6 +121,7 @@ class SiparisYoneticisi implements ISiparisIslemleri {
       sepet[i].stok--;
     }
 
+    // todo 6: Kupon kodları ve indirim oranları ayrı bir sınıfta tutulabilir. Bu sayede yeni kuponlar eklemek daha kolay olur.
     if (kuponKodu == "INDIRIM10") {
       toplam = toplam * 0.90;
     } else if (kuponKodu == "YAZ20") {

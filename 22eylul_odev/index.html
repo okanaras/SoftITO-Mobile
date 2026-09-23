@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22 Eylul Task</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #4338ca;
+            --primary-dark: #312e81;
+            --accent: #10b981;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+
+        }
+
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--surface);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid var(--surface-light);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+            padding-bottom: 70px;
+        }
+
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--surface-light);
+        }
+
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            gap: 14px;
+            border-top: 1px solid var(--surface-light);
+        }
+
+        .bottom-bar-amount {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .bottom-bar-btn {
+            background: var(--primary);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .bottom-bar-amount-left {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            background: rgb(255 0 0 / 0.55);
+            padding: 2px 6px;
+            border-radius: 14px;
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-decoration: line-through;
+        }
+
+        .emoji {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .balance-card {
+            margin: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(67, 56, 202, 0.35);
+        }
+
+        .card-chip-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgb(255 210 0 / 0.55);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .card-chip-badge-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgb(255 0 0 / 0.55);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .img-card {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .sizes {
+            display: flex;
+            justify-content: space-evenly;
+            padding: 0 10px 10px;
+            gap: 1px;
+        }
+
+        .size-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .icon-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: var(--surface-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .size-btn:hover .icon-circle {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .tx-section {
+            padding: 0 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-muted)
+        }
+
+        .tx-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 244, 0.05);
+            border-radius: 14px;
+        }
+
+        .tx-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tx-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .tx-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <!--sticky üst bar-->
+    <header class="top-bar">
+        <div class="emoji">↩</div>
+        <div class="emoji">👤</div>
+        <div class="emoji">🛒</div>
+    </header>
+
+    <!--Bakiye Kartı-->
+    <section class="balance-card">
+        <img class="img-card" src="https://placehold.co/600x400" alt="Image">
+        <span class="card-chip-badge">%20 İndirim</span>
+        <span class="card-chip-badge-left">Ücretsiz Kargo</span>
+        <p style="font-size: 13px; opacity: 0.85;">Lorem ipsum.</p>
+        <p style="font-size: 13px; opacity: 0.9;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At corporis
+            dignissimos dolores ducimus eaque expedita maiores repellendus saepe similique veritatis.</p>
+    </section>
+
+    <!--Bedenler-->
+    <div style="padding: 0 20px; margin-bottom: 10px;">
+        <h4 class="section-title">Bedenler</h4>
+    </div>
+    <section class="sizes">
+        <button class="size-btn">
+            <span class="icon-circle">38</span>
+        </button>
+        <button class="size-btn">
+            <span class="icon-circle">39</span>
+        </button>
+        <button class="size-btn">
+            <span class="icon-circle">40</span>
+        </button>
+        <button class="size-btn">
+            <span class="icon-circle">41</span>
+        </button>
+        <button class="size-btn">
+            <span class="icon-circle">42</span>
+        </button>
+        <button class="size-btn">
+            <span class="icon-circle">43</span>
+        </button>
+    </section>
+
+    <!--Son Yorumlar-->
+    <section class="tx-section">
+        <h4 class="section-title">Son Yorumlar</h4>
+        <div class="tx-item">
+            <div class="tx-left">
+                <div>
+                    <div class="tx-title">Ahmet Yılmaz</div>
+                    <div class="tx-date">Ürün gerçekten çok kaliteli, beklediğimden daha iyi çıktı.</div>
+                </div>
+            </div>
+        </div>
+        <div class="tx-item">
+            <div class="tx-left">
+                <div>
+                    <div class="tx-title">Mehmet Kaya</div>
+                    <div class="tx-date">
+                        Kargo hızlıydı ve ürün sorunsuz bir şekilde elime ulaştı.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tx-item">
+            <div class="tx-left">
+                <div>
+                    <div class="tx-title">Elif Demir</div>
+                    <div class="tx-date">
+                        Tasarımı çok güzel. Kullanımı da oldukça kolay.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-bar">
+        <span class="bottom-bar-amount-left">4.999,99 ₺</span>
+        <span class="bottom-bar-amount">3.999,99 ₺</span>
+        <span class="bottom-bar-btn">Sepete Ekle</span>
+    </nav>
+</div>
+</body>
+
+</html>
